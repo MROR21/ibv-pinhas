@@ -327,7 +327,7 @@ products.forEach(product => {
    function animateTextByLetter(element, delayStart = 0, speedMultiplier = 0.02, onComplete = null) {
     const originalText = element.innerHTML;
     const text = element.textContent;
-    element.innerHTML = " ";
+    element.innerHTML = "";
 
       element.style.visibility = "visible";
 
@@ -340,12 +340,10 @@ products.forEach(product => {
     });
 
     if (originalText.includes("<br")) {
-        // reinsere o <br> no lugar correto
       element.innerHTML = element.innerHTML.replace(/(de Cada Vez)/, '$1<br>');
     }
 
     if (onComplete) {
-      // O cálculo da duração total também usa o novo parâmetro
     const totalDuration = (delayStart + text.length * speedMultiplier) * 1000 + 300;
     setTimeout(onComplete, totalDuration);
     }
