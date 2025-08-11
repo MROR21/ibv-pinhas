@@ -1,5 +1,24 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+  // --- Lógica do Menu Hambúrguer ---
+  const hamburgerButton = document.querySelector('.hamburger-menu');
+  const mainNav = document.getElementById('main-nav');
+
+  if (hamburgerButton && mainNav) {
+    hamburgerButton.addEventListener('click', () => {
+      hamburgerButton.classList.toggle('active');
+      mainNav.classList.toggle('active');
+    });
+
+    mainNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburgerButton.classList.remove('active');
+        mainNav.classList.remove('active');
+      });
+    });
+  }
+
+  // --- Lógica do Scroll Suave ---
   document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
@@ -12,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  // --- Lógica do Header Sticky e Sombra ---
   const header = document.querySelector('header');
   window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
@@ -21,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // --- Lógica de Animação com Intersection Observer ---
   const observer = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -42,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const elementsToAnimate = document.querySelectorAll('.animate-on-scroll, .program-card');
   elementsToAnimate.forEach(el => observer.observe(el));
 
+  // --- Lógica de Animação de Números ---
   function animateValue(obj, start, end, duration) {
     let startTimestamp = null;
     const step = (timestamp) => {
@@ -80,12 +102,15 @@ document.addEventListener('DOMContentLoaded', function () {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.5 });
+  }, {
+    threshold: 0.5
+  });
 
   if (numbersSection) {
     numberObserver.observe(numbersSection);
   }
 
+  // --- Lógica do Botão de Copiar PIX ---
   const copyPixButton = document.querySelector('.pix-qr .button');
   if (copyPixButton) {
     copyPixButton.addEventListener('click', function () {
@@ -114,63 +139,63 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
-     // Lógica do carrossel de histórias (testimonials)
-  const storySlider = document.querySelector('.story-slider');
-  if (storySlider) {
-    const slides = Array.from(storySlider.children);
-    const nextButton = document.querySelector('.carousel-button.next');
-    const prevButton = document.querySelector('.carousel-button.prev');
-    const dotsContainer = document.querySelector('.stories .carousel-dots');
+    // --- Lógica do Carrossel de Histórias ---
+    const storySlider = document.querySelector('.story-slider');
+    if (storySlider) {
+      const slides = Array.from(storySlider.children);
+      const nextButton = document.querySelector('.carousel-button.next');
+      const prevButton = document.querySelector('.carousel-button.prev');
+      const dotsContainer = document.querySelector('.stories .carousel-dots');
 
-    let currentIndex = 0;
-    const slideWidth = slides[0].getBoundingClientRect().width;
-    
-    slides.forEach((slide, index) => {
-      const dot = document.createElement('button');
-      dot.classList.add('dot');
-      dot.setAttribute('aria-label', `Ir para a história ${index + 1}`);
-      dotsContainer.appendChild(dot);
-      
-      dot.addEventListener('click', () => {
-        goToSlide(index);
+      let currentIndex = 0;
+      const slideWidth = slides[0].getBoundingClientRect().width;
+
+      slides.forEach((slide, index) => {
+        const dot = document.createElement('button');
+        dot.classList.add('dot');
+        dot.setAttribute('aria-label', `Ir para a história ${index + 1}`);
+        dotsContainer.appendChild(dot);
+
+        dot.addEventListener('click', () => {
+          goToSlide(index);
+        });
       });
-    });
 
-    const dots = dotsContainer.querySelectorAll('.dot');
-    
-    const goToSlide = (index) => {
-      storySlider.style.transform = 'translateX(-' + slideWidth * index + 'px)';
-      
-      dots.forEach(dot => dot.classList.remove('active'));
-      
-      currentIndex = index;
-      
-      dots[currentIndex].classList.add('active');
-    };
+      const dots = dotsContainer.querySelectorAll('.dot');
 
-    nextButton.addEventListener('click', () => {
-      const newIndex = (currentIndex + 1) % slides.length;
-      goToSlide(newIndex);
-    });
+      const goToSlide = (index) => {
+        storySlider.style.transform = 'translateX(-' + slideWidth * index + 'px)';
 
-    prevButton.addEventListener('click', () => {
-      const newIndex = (currentIndex - 1 + slides.length) % slides.length;
-      goToSlide(newIndex);
-    });
+        dots.forEach(dot => dot.classList.remove('active'));
 
-    goToSlide(0);
+        currentIndex = index;
 
-    window.addEventListener('resize', () => {
-      const newSlideWidth = slides[0].getBoundingClientRect().width;
-      storySlider.style.transition = 'none';
-      storySlider.style.transform = 'translateX(-' + newSlideWidth * currentIndex + 'px)';
-      setTimeout(() => {
-        storySlider.style.transition = 'transform 0.5s ease-in-out';
+        dots[currentIndex].classList.add('active');
+      };
+
+      nextButton.addEventListener('click', () => {
+        const newIndex = (currentIndex + 1) % slides.length;
+        goToSlide(newIndex);
       });
-    });
-  }
 
+      prevButton.addEventListener('click', () => {
+        const newIndex = (currentIndex - 1 + slides.length) % slides.length;
+        goToSlide(newIndex);
+      });
 
+      goToSlide(0);
+
+      window.addEventListener('resize', () => {
+        const newSlideWidth = slides[0].getBoundingClientRect().width;
+        storySlider.style.transition = 'none';
+        storySlider.style.transform = 'translateX(-' + newSlideWidth * currentIndex + 'px)';
+        setTimeout(() => {
+          storySlider.style.transition = 'transform 0.5s ease-in-out';
+        });
+      });
+    }
+
+    // --- Lógica dos Modais de Programas ---
     const programDetails = {
       musica: {
         title: "Aulas de Música",
@@ -258,18 +283,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
- 
-// Lógica para o carrossel de imagens dentro de cada 'product'
-const products = document.querySelectorAll('.product');
 
-products.forEach(product => {
-  const images = product.querySelectorAll('.carousel-image');
-  const prevButton = product.querySelector('.carousel-nav-btn.prev');
-  const nextButton = product.querySelector('.carousel-nav-btn.next');
-  const dotsContainer = product.querySelector('.carousel-dots');
-  let currentImageIndex = 0;
+  // --- Lógica dos Carrosséis de Imagens ---
+  const products = document.querySelectorAll('.product');
 
-  if (images.length > 1) {
+  products.forEach(product => {
+    const images = product.querySelectorAll('.carousel-image');
+    const prevButton = product.querySelector('.carousel-nav-btn.prev');
+    const nextButton = product.querySelector('.carousel-nav-btn.next');
+    const dotsContainer = product.querySelector('.carousel-dots');
+    let currentImageIndex = 0;
+
+    if (images.length > 1) {
       images.forEach((_, index) => {
         const dot = document.createElement('button');
         dot.classList.add('dot');
@@ -282,9 +307,9 @@ products.forEach(product => {
         }
       });
 
-    const dots = dotsContainer ? dotsContainer.querySelectorAll('.dot') : null;
+      const dots = dotsContainer ? dotsContainer.querySelectorAll('.dot') : null;
 
-     const goToImage = (index) => {
+      const goToImage = (index) => {
         images[currentImageIndex].classList.remove('active');
         if (dots) {
           dots[currentImageIndex].classList.remove('active');
@@ -296,14 +321,14 @@ products.forEach(product => {
         currentImageIndex = index;
       };
 
-    if (prevButton) {
+      if (prevButton) {
         prevButton.addEventListener('click', () => {
           const newIndex = (currentImageIndex - 1 + images.length) % images.length;
           goToImage(newIndex);
         });
       }
 
-    if (nextButton) {
+      if (nextButton) {
         nextButton.addEventListener('click', () => {
           const newIndex = (currentImageIndex + 1) % images.length;
           goToImage(newIndex);
@@ -311,29 +336,32 @@ products.forEach(product => {
       }
     }
   });
+
+  // --- Lógica de Efeito Hover nos Cards ---
   const cards = document.querySelectorAll('.program-card');
-    cards.forEach(card => {
-        card.addEventListener('mousemove', e => {
-            card.style.transform = `scale(1.05)`;
-            card.classList.add('hovering');
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'translateZ(0) rotateX(0) rotateY(0) scale(1)';
-            card.classList.remove('hovering');
-        });
-        
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      card.style.transform = `scale(1.05)`;
+      card.classList.add('hovering');
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'translateZ(0) rotateX(0) rotateY(0) scale(1)';
+      card.classList.remove('hovering');
+    });
+  });
 
 
-   function animateTextByLetter(element, delayStart = 0, speedMultiplier = 0.02, onComplete = null) {
+  // --- Lógica de Animação de Texto por Letra ---
+  function animateTextByLetter(element, delayStart = 0, speedMultiplier = 0.02, onComplete = null) {
     const originalText = element.innerHTML;
     const text = element.textContent;
     element.innerHTML = "";
 
-      element.style.visibility = "visible";
+    element.style.visibility = "visible";
 
     [...text].forEach((char, i) => {
-    const span = document.createElement("span");
-      span.textContent = char === " " ? "\u00A0" : char; // preserva espaços
+      const span = document.createElement("span");
+      span.textContent = char === " " ? "\u00A0" : char;
       span.style.animation = `fadeInLeft 0.3s ease forwards`;
       span.style.animationDelay = `${delayStart + i * speedMultiplier}s`;
       element.appendChild(span);
@@ -344,31 +372,24 @@ products.forEach(product => {
     }
 
     if (onComplete) {
-    const totalDuration = (delayStart + text.length * speedMultiplier) * 1000 + 300;
-    setTimeout(onComplete, totalDuration);
+      const totalDuration = (delayStart + text.length * speedMultiplier) * 1000 + 300;
+      setTimeout(onComplete, totalDuration);
     }
-    }
+  }
 
-    const h1 = document.getElementById("hero-title");
-    const p = document.getElementById("hero-paragraph");
-    const heroButtons = document.querySelector(".hero-buttons");
+  const h1 = document.getElementById("hero-title");
+  const p = document.getElementById("hero-paragraph");
+  const heroButtons = document.querySelector(".hero-buttons");
 
-  // Inicia a animação do h1 imediatamente
   animateTextByLetter(h1, 0, 0.028);
 
-  // Inicia a animação do p com um pequeno delay fixo
-  // Ajuste o valor de 0.8s para controlar a velocidade da transição
-   setTimeout(() => {
-    animateTextByLetter(p, 0, 0.015); 
+  setTimeout(() => {
+    animateTextByLetter(p, 0, 0.015);
   }, 100);
 
-  // Inicia a animação dos botões logo após o p
   setTimeout(() => {
     heroButtons.style.opacity = 1;
     heroButtons.style.transform = "translateY(0)";
-  }, 1600); // 800ms (p) + 800ms (duração da animação)
-});
+  }, 1600);
 
 });
-
- 

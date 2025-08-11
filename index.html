@@ -31,21 +31,28 @@
 <body>
 
     <header>
-        <div class="container">
-            <div class="logo">
-                <img src="img/logo-ibv.png" alt="Instituto Bom Vizinho" loading="lazy">
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#sobre">Sobre Nós</a></li>
-                    <li><a href="#momentos">Momentos</a></li>
-                    <li><a href="#programas">Programas</a></li>
-                    <li><a href="#historias">Histórias</a></li>
-                    <li><a href="#ajudar">Como Ajudar</a></li>
-                </ul>
-            </nav>
+    <div class="container">
+        <div class="logo">
+            <img src="img/logo-ibv.png" alt="Instituto Bom Vizinho" loading="lazy">
         </div>
-    </header>
+        
+        <button class="hamburger-menu" aria-label="Abrir menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </button>
+
+        <nav id="main-nav">
+            <ul>
+                <li><a href="#sobre">Sobre Nós</a></li>
+                <li><a href="#momentos">Momentos</a></li>
+                <li><a href="#programas">Programas</a></li>
+                <li><a href="#historias">Histórias</a></li>
+                <li><a href="#ajudar">Como Ajudar</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 
     <section id="hero" class="hero">
         <div class="hero-content container">

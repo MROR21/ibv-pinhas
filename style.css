@@ -54,7 +54,7 @@ body {
 /* Header */
 header {
   background-color:rgb(255, 255, 255);
-  padding: 20px 0;
+  padding: 5px 0;
   box-shadow: 0 5px 4px rgba(0, 0, 0, 0.418);
   position:sticky;
   top: 0;
@@ -235,7 +235,7 @@ header nav ul li a:hover {
 
 .about-text {
   background-color: rgba(255, 255, 255, 0.808);
-  padding: 38px;
+  padding: 30px;
   border-radius: 8px;
   transition: transform 0.2s ease, box-shadow 0.4s ease;
 }
@@ -252,7 +252,7 @@ header nav ul li a:hover {
 
 .about-video {
   position: relative;
-  padding-top: 56.25%; /* Proporção 16:9 para vídeos */
+  padding-top: 56.25%;
   height: 0;
   overflow: hidden;
   border-radius: 8px;
@@ -293,14 +293,14 @@ header nav ul li a:hover {
   letter-spacing: 1px;
 }
 
-/* Grid Layout */
+
 .program-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
 }
 
-/* Program Card */
+
 .program-card {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 16px;
@@ -315,20 +315,17 @@ header nav ul li a:hover {
   transform: translateY(40px) scale(0.95);
 }
 
-/* Animação de entrada */
 .program-card.is-visible {
   opacity: 1;
   transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Quando o mouse entra, o card "salta" */
 .program-card.hovering {
   box-shadow:
     0 20px 30px rgba(0, 0, 0, 0.15),
     0 20px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* Imagem */
 .program-card img {
   width: 100%;
   height: 200px;
@@ -342,7 +339,6 @@ header nav ul li a:hover {
   filter: brightness(1.05) contrast(1.1);
 }
 
-/* Título */
 .program-card h3 {
   padding: 20px 20px 10px 20px;
   margin: 0;
@@ -351,7 +347,6 @@ header nav ul li a:hover {
   font-weight: 600;
 }
 
-/* Texto */
 .program-card p {
   padding: 0 20px 20px 20px;
   margin: 0;
@@ -360,7 +355,6 @@ header nav ul li a:hover {
   line-height: 1.7;
 }
 
-/* Botão Saiba Mais */
 .program-card .learn-more {
   display: block;
   padding: 15px 20px;
@@ -374,7 +368,6 @@ header nav ul li a:hover {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Efeito de brilho no hover */
 .program-card .learn-more::before {
   content: "";
   position: absolute;
@@ -635,8 +628,28 @@ footer .footer-bottom img {
 }
 
 @media (max-width: 600px) {
+   .hero {
+    padding: 120px 0 60px 0;
+    background-attachment: scroll; 
+  }
+
   .hero h1 {
-    font-size: 2.2rem;
+    font-size: 1.6rem;
+  }
+
+
+  .products {
+        width: 100%;
+        margin: 0;
+   }
+    
+  .product figcaption {
+        padding: 10px 10px 20px;
+   }
+
+  .hero p {
+    font-size: 1rem;
+    padding: 0 10px; 
   }
 
   .hero-buttons {
@@ -980,34 +993,28 @@ header nav ul li a:hover::after {
 
 
 
-/* Seu arquivo style.css */
-
 .products {
-  /* Mantém as regras do container principal */
   height: 500px;
   width: 95%;
   margin-top: 50px;
   display: flex;
   overflow: hidden;
-  border-top: 3px solid var(--azul-confianca); /* Exemplo de borda */
+  border-top: 3px solid var(--azul-confianca); 
   border-radius: 12px;
   margin: auto;
 }
 
 .product {
-  /* Ajusta o container do item */
   flex: 1;
   position: relative;
-  transition: flex 0.5s ease-in-out, flex-direction 0.5s ease-in-out; /* Transições suaves */
+  transition: flex 0.5s ease-in-out, flex-direction 0.5s ease-in-out; 
   
-  /* Defina aqui a imagem de fundo para cada produto */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  color: white; /* Cor do texto */
+  color: white;
 }
 
-/* Adiciona a imagem de fundo para cada div.product */
 .product:nth-child(1) {
   background-image: url(img/carrossel1.jpg);
   background-size: cover;
@@ -1025,25 +1032,23 @@ header nav ul li a:hover::after {
 }
 
 .product figure, .product figcaption {
-  /* Faz a legenda ocupar todo o espaço do produto */
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* Alinha o conteúdo na parte de baixo */
+  justify-content: flex-end;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding:  15px 15px 35px; /* Espaçamento interno */
+  padding:  15px 15px 35px;
 
-  /* Gradiente para melhorar a leitura do texto */
   background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent 70%);
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Sombra para o texto */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .product figure {
-  margin: 0; /* Remove a margem padrão da tag figure */
+  margin: 0; 
 }
 .product figcaption strong {
   opacity: 1; 
@@ -1054,32 +1059,29 @@ header nav ul li a:hover::after {
 .product figcaption small, 
 .product figcaption p {
   transition: opacity 0.5s ease-in-out;
-  opacity: 0; /* Começa com o texto invisível */
+  opacity: 0;
 }
 
 .product:hover {
-  flex: 1.4; /* Expande o item no hover */
+  flex: 1.4;
 }
 
 .product:hover figcaption small,
 .product:hover figcaption p {
-  opacity: 1; /* Mostra o texto no hover */
+  opacity: 1;
 }
 
-/* Animação para a transição de opacidade */
 @keyframes show {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-
-/* Seu arquivo style.css */
 
 .section-title {
   font-size: 2.2rem;
     color: var(--azul-confianca);
     text-align: center;
     margin-bottom: 50px;  
-    margin-top: 130px;  /* Adiciona um espaço abaixo do título */
+    margin-top: 130px;  
 }
 
 
@@ -1098,7 +1100,7 @@ header nav ul li a:hover::after {
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  opacity: 0; /* Começa invisível */
+  opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
 
@@ -1110,12 +1112,10 @@ header nav ul li a:hover::after {
   right: 10px;
 }
 
-/* Os botões aparecem apenas quando o mouse está sobre o produto */
 .product:hover .carousel-nav-btn {
   opacity: 1;
 }
 
-/* --- Estilos para a Legenda do Carrossel --- */
 
 .image-carousel {
   width: 100%;
@@ -1123,7 +1123,7 @@ header nav ul li a:hover::after {
   position: absolute;
   top: 0;
   left: 0;
-  overflow: hidden; /* Esconde as imagens que não estão visíveis */
+  overflow: hidden; 
 }
 
 .carousel-image {
@@ -1132,17 +1132,17 @@ header nav ul li a:hover::after {
   position: absolute;
   top: 0;
   left: 0;
-  object-fit: cover; /* Garante que a imagem preencha o container */
+  object-fit: cover; 
   opacity: 0;
-  transition: opacity 1s ease-in-out; /* Transição suave entre as imagens */
+  transition: opacity 1s ease-in-out; 
 }
 
 .carousel-image.active {
-  opacity: 1; /* Mostra a imagem ativa */
+  opacity: 1;
 }
 
 .product:hover .image-carousel {
-  /* No hover, o carrossel de imagens se torna visível */
+ 
   opacity: 1;
 }
 
@@ -1160,14 +1160,12 @@ header nav ul li a:hover::after {
 }
 
 
-/* Seu arquivo style.css */
-
 .carousel-dots {
   position: absolute;
-  bottom: 10px; /* Posiciona na parte de baixo */
+  bottom: 10px; 
   left: 50%;
   transform: translateX(-50%);
-  display: flex; /* Para alinhar os pontinhos lado a lado */
+  display: flex; 
   gap: 8px;
   z-index: 10;
   opacity: 0;
@@ -1178,21 +1176,127 @@ header nav ul li a:hover::after {
   width: 10px;
   height: 12px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5); /* Cor padrão dos pontinhos */
+  background-color: rgba(255, 255, 255, 0.5);
   border: none;
   cursor: pointer;
 }
 
 .dot.active {
-  background-color: #fff; /* Cor do pontinho ativo */
+  background-color: #fff; 
 }
 
-/* Seu arquivo style.css */
 
-/* Os pontinhos do carrossel de momentos aparecem junto com os botões no hover */
 .product:hover .carousel-dots {
     opacity: 1;
 }
 
 
+.hamburger-menu {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 15px;
+  position: relative;
+  z-index: 1100; 
+}
+
+.hamburger-menu .bar {
+  width: 30px;
+  height: 3px;
+  background-color: var(--azul-confianca);
+  margin: 6px 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger-menu.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.active .bar:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.hamburger-menu.active .bar:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+@media (max-width: 900px) {
+  header .container {
+   
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .hamburger-menu {
+    display: block;
+  }
+
+  #main-nav {
+    display: flex; 
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 80%;
+    height: 100vh; 
+    background-color: var(--branco);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    padding: 80px 20px;
+    
+    transform: translateX(100%);
+    transition: transform 0.4s ease-in-out;
+  }
+
+  #main-nav.active {
+    transform: translateX(0); 
+  }
+
+  #main-nav ul {
+    flex-direction: column;
+    text-align: left;
+    width: 100%;
+    list-style: none;
+    padding: 0;
+  }
+
+  #main-nav ul li {
+    margin: 15px 0;
+  }
+
+  #main-nav ul li a {
+    font-size: 1.2rem;
+    padding: 10px;
+    display: block;
+  }
+
+  #main-nav ul li a::after {
+    display: none;
+  }
+  .products {
+    flex-direction: column; 
+    height: auto; 
+  }
+
+  .product {
+    flex: none; 
+    min-height: 400px; 
+  }
+  
+  .product:hover {
+      flex: none; 
+  }
+
+  .product:hover figcaption small,
+  .product:hover figcaption p {
+    opacity: 1;
+  }
+
+  .product figcaption small,
+  .product figcaption p {
+    opacity: 1;
+    transition: none;
+  }
+}
 
