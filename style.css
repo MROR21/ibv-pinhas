@@ -842,17 +842,18 @@ header nav ul li a:hover::after {
 .story-slide {
     flex: 0 0 100%; 
     box-sizing: border-box;
+    padding-top: 15px;
 }
 
 .carousel-button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: transparent;
     border: none;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     font-size: 24px;
     font-weight: bold;
     color: var(--azul-confianca);
@@ -865,7 +866,7 @@ header nav ul li a:hover::after {
 }
 
 .carousel-button:hover {
-    background-color: var(--branco);
+    background-color: transparent;
     color: var(--verde-esperanca);
     transform: translateY(-50%) scale(1.1);
 }
@@ -1090,7 +1091,7 @@ header nav ul li a:hover::after {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: transparent;
   color: white;
   border: none;
   padding: 2px;
@@ -1300,3 +1301,538 @@ header nav ul li a:hover::after {
   }
 }
 
+/* ======================================
+   SEÇÃO DE MOMENTOS QUE MARCAM A HISTÓRIA
+   ====================================== */
+
+.moments-history {
+  padding: 80px 0;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('imagens_ibv/coral/coral_apresentacao_campal2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  overflow: hidden;
+}
+
+.moments-history::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--verde-esperanca);
+}
+
+.moments-history .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Filtros */
+.moments-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 40px;
+  justify-content: center;
+  align-items: center;
+}
+
+.filter-btn {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid var(--azul-confianca);
+  color: var(--azul-confianca);
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.filter-btn:hover {
+  background: var(--azul-confianca);
+  color: var(--branco);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+}
+
+.filter-btn.active {
+  background: var(--verde-esperanca);
+  color: var(--branco);
+  border-color: var(--verde-esperanca);
+  box-shadow: 0 6px 20px rgba(240, 134, 12, 0.6);
+}
+
+/* Container do Carrossel com Arrasto */
+.moments-carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+}
+
+.moments-carousel-container.dragging {
+  cursor: grabbing;
+}
+
+.moments-slider {
+  display: flex;
+  transition: transform 0.3s ease;
+  gap: 20px;
+  will-change: transform;
+  padding: 0 10px;
+}
+
+.moments-slider.dragging {
+  transition: none;
+}
+
+.moment-slide {
+  flex: 1;
+  min-width: 250px;
+  max-width: 400px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* Cards de Momentos (Estilo Original) */
+.moment-card {
+  background: var(--branco);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotate(0.5deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-8px) rotate(-0.5deg);
+  }
+}
+
+.moment-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
+
+.moment-card:active {
+  transform: translateY(-4px) scale(0.98);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  transition: all 0.2s ease;
+}
+
+/* Efeito de brilho no hover */
+.moment-card .shine-effect {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.6s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.moment-card:hover .shine-effect {
+  left: 100%;
+}
+
+/* Efeito de partículas mágicas */
+.moment-card .magic-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+
+.moment-card .magic-particles::before,
+.moment-card .magic-particles::after {
+  content: '✨';
+  position: absolute;
+  font-size: 20px;
+  opacity: 0;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+.moment-card .magic-particles::before {
+  top: 20%;
+  left: 10%;
+  animation-delay: 0.5s;
+}
+
+.moment-card .magic-particles::after {
+  top: 60%;
+  right: 15%;
+  animation-delay: 1s;
+}
+
+.moment-card:hover .magic-particles::before,
+.moment-card:hover .magic-particles::after {
+  opacity: 1;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+    opacity: 1;
+  }
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Placeholder para imagens */
+.moment-image-placeholder {
+  height: 250px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--branco);
+  font-size: 18px;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.moment-card:hover .moment-image-placeholder {
+  transform: scale(1.05);
+  filter: brightness(1.1) contrast(1.1);
+}
+
+.moment-card:active .moment-image-placeholder {
+  transform: scale(1.02);
+  filter: brightness(1.05) contrast(1.05);
+}
+
+@keyframes gentle-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.moment-image-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.2);
+}
+
+.placeholder-icon {
+  font-size: 4rem;
+  margin-bottom: 15px;
+  z-index: 1;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  animation: float 3s ease-in-out infinite;
+}
+
+.moment-image-placeholder span {
+  z-index: 1;
+  text-align: center;
+  padding: 0 20px;
+}
+
+/* Conteúdo do Card */
+.moment-content {
+  padding: 25px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+  transition: all 0.4s ease;
+}
+
+.moment-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.moment-category {
+  background: var(--cinza-suave);
+  color: var(--azul-confianca);
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.recent-badge {
+  background: var(--laranja-agir);
+  color: var(--branco);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(231, 111, 81, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(231, 111, 81, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(231, 111, 81, 0); }
+}
+
+.moment-date {
+  color: var(--cinza-detalhes);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.moment-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--azul-confianca);
+  margin-bottom: 15px;
+  line-height: 1.3;
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.moment-card:hover .moment-title {
+  color: var(--laranja-alegria);
+  transform: translateX(5px);
+}
+
+.moment-card:active .moment-title {
+  transform: translateX(2px);
+}
+
+.moment-description {
+  color: var(--azul-confianca);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1;
+  font-size: 15px;
+  transition: all 0.4s ease;
+}
+
+.moment-card:hover .moment-description {
+  color: #333;
+  transform: translateX(3px);
+}
+
+.moment-card:active .moment-description {
+  transform: translateX(1px);
+}
+
+.moment-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.moment-participants,
+.moment-type {
+  font-size: 13px;
+  color: var(--cinza-detalhes);
+  font-weight: 500;
+}
+
+
+/* Estados de Filtro */
+.moment-slide.hidden {
+  display: none;
+}
+
+.moment-slide.visible {
+  display: block;
+}
+
+/* Mensagem de não resultados */
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--azul-confianca);
+}
+
+.no-results .icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.no-results h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: var(--azul-confianca);
+}
+
+.no-results p {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  .moment-slide {
+    min-width: calc(33.333% - 20px);
+  }
+}
+
+@media (max-width: 768px) {
+  .moments-history {
+    padding: 60px 0;
+  }
+  
+  .moments-filters {
+    gap: 8px;
+    margin-bottom: 30px;
+  }
+  
+  .filter-btn {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+  
+  .moment-slide {
+    min-width: calc(50% - 15px);
+  }
+  
+  .moments-carousel-container {
+    padding: 20px;
+  }
+  
+  .moment-image-placeholder {
+    height: 220px;
+  }
+  
+  .placeholder-icon {
+    font-size: 3rem;
+  }
+  
+  .moment-content {
+    padding: 20px;
+  }
+  
+  .moment-title {
+    font-size: 1.2rem;
+  }
+  
+  .moment-description {
+    font-size: 14px;
+  }
+  
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .carousel-btn.prev {
+    left: 10px;
+  }
+  
+  .carousel-btn.next {
+    right: 10px;
+  }
+  
+  .moment-info {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .moment-slide {
+    min-width: 180px;
+    max-width: 220px;
+  }
+  
+  .moment-image-placeholder {
+    height: 180px;
+  }
+  
+  .moment-content {
+    padding: 15px;
+  }
+  
+  .moment-title {
+    font-size: 1.1rem;
+  }
+  
+  .moment-description {
+    font-size: 13px;
+  }
+}
+
+/* Animações */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.moment-card {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.moment-slide:nth-child(1) .moment-card { animation-delay: 0.1s; }
+.moment-slide:nth-child(2) .moment-card { animation-delay: 0.2s; }
+.moment-slide:nth-child(3) .moment-card { animation-delay: 0.3s; }
+.moment-slide:nth-child(4) .moment-card { animation-delay: 0.4s; }
+.moment-slide:nth-child(5) .moment-card { animation-delay: 0.5s; }

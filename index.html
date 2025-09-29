@@ -62,93 +62,251 @@
   
 <h2 class="section-title animate-on-scroll fade-in">Momentos que Marcam a Nossa História</h2>
 
-<section id="momentos" class = "products animate-on-scroll fade-in">
-
-
-    <div class="product">
-        <div class="image-carousel">
-            <img src="img/carrossel1.jpg"  class="carousel-image active">
-            <img src="img/carrossel5.jpg"  class="carousel-image">
-            <img src="img/carrossel6.jpg"  class="carousel-image">
-            <img src="img/carrossel7.png"  class="carousel-image">
-
-            <button class="carousel-nav-btn prev">❮</button>
-            <button class="carousel-nav-btn next">❯</button>
-
-            <div class="carousel-dots"></div>
+<section id="momentos" class="moments-history animate-on-scroll fade-in">
+    <div class="container">
+        <!-- Filtros por Categoria -->
+        <div class="moments-filters">
+            <button class="filter-btn active" data-category="todos">Todos</button>
+            <button class="filter-btn" data-category="recentes">📅 Recentes</button>
+            <button class="filter-btn" data-category="natal">🎄 Natal</button>
+            <button class="filter-btn" data-category="festas">🎭 Festas</button>
+            <button class="filter-btn" data-category="datas-especiais">🎈 Datas Especiais</button>
+            <button class="filter-btn" data-category="cultura">🎵 Cultura</button>
+            <button class="filter-btn" data-category="parcerias">🤝 Parcerias</button>
+            <button class="filter-btn" data-category="educacao">🎓 Educação</button>
+            <button class="filter-btn" data-category="conquistas">🏆 Conquistas</button>
+            <button class="filter-btn" data-category="comunitario">🌱 Comunitário</button>
         </div>
-        <figure>
-            <figcaption>
-                <strong class="caption-date">Visita ao Sana Fotaleza...</strong>
-                <small>20 de Maio de 2025</small>
-                <p class="caption-text"> Nossos jovens exploraram o universo da cultura geek no evento Sana, um dia de aprendizado e diversão.</p>
-            </figcaption>
-        </figure>
-        
-    </div>
 
+        <!-- Carrossel de Momentos -->
+        <div class="moments-carousel-container">
+            <div class="moments-slider-wrapper">
+                <div class="moments-slider">
+                    <!-- Eventos Recentes -->
+                    <div class="moment-slide" data-category="recentes parcerias" data-date="2025-05-20">
+                        <div class="moment-card">
+                            <div class="moment-image-placeholder">
+                                <div class="placeholder-icon">📸</div>
+                                <span>Visita ao Sana Fortaleza</span>
+                            </div>
+                            <div class="moment-content">
+                                <div class="moment-meta">
+                                    <span class="moment-category recent-badge">RECENTE</span>
+                                    <span class="moment-date">20 de Maio de 2025</span>
+                                </div>
+                                <h3 class="moment-title">Visita ao Sana Fortaleza</h3>
+                                <p class="moment-description">Nossos jovens exploraram o universo da cultura geek no evento Sana, um dia de aprendizado e diversão com experiências únicas no mundo da tecnologia e games.</p>
+                                <div class="moment-info">
+                                    <span class="moment-participants">👥 25 participantes</span>
+                                    <span class="moment-type">🎮 Evento Cultural</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-    <div class="product">
-        <div class="image-carousel">
-            <img src="img/carrossel2.jpg"  class="carousel-image active">
-            <img src="img/carrossel8.jpg"  class="carousel-image">
-            <img src="img/carrossel9.jpg"  class="carousel-image">
-            <img src="img/carrossel10.jpg"  class="carousel-image">
+                    <div class="moment-slide" data-category="recentes datas-especiais" data-date="2024-10-12">
+                        <div class="moment-card">
+                            <div class="moment-image-placeholder">
+                                <div class="placeholder-icon">🎈</div>
+                                <span>Dia das Crianças 2024</span>
+                            </div>
+                            <div class="moment-content">
+                                <div class="moment-meta">
+                                    <span class="moment-category recent-badge">RECENTE</span>
+                                    <span class="moment-date">12 de Outubro de 2024</span>
+                                </div>
+                                <h3 class="moment-title">Dia das Crianças 2024</h3>
+                                <p class="moment-description">Celebração especial com brincadeiras, apresentações do coral, distribuição de brinquedos e muitas atividades recreativas para todas as nossas crianças.</p>
+                                <div class="moment-info">
+                                    <span class="moment-participants">👥 80 crianças</span>
+                                    <span class="moment-type">🎉 Celebração</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            <button class="carousel-nav-btn prev">❮</button>
-            <button class="carousel-nav-btn next">❯</button>
+                    <!-- Eventos de Natal -->
+                    <div class="moment-slide" data-category="natal" data-date="2023-12-20">
+                        <div class="moment-card">
+                            <div class="moment-image-placeholder">
+                                <div class="placeholder-icon">🎄</div>
+                                <span>Natal 2023</span>
+                            </div>
+                            <div class="moment-content">
+                                <div class="moment-meta">
+                                    <span class="moment-category">🎄 Natal</span>
+                                    <span class="moment-date">20 de Dezembro de 2023</span>
+                                </div>
+                                <h3 class="moment-title">Natal 2023</h3>
+                                <p class="moment-description">Ceia comunitária com apresentação especial do coral, troca de presentes e momento de confraternização entre todas as famílias do instituto.</p>
+                                <div class="moment-info">
+                                    <span class="moment-participants">👥 120 participantes</span>
+                                    <span class="moment-type">🎄 Celebração</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="carousel-dots"></div>
+                    <div class="moment-slide" data-category="natal" data-date="2022-12-18">
+                        <div class="moment-card">
+                            <div class="moment-image-placeholder">
+                                <div class="placeholder-icon">🎄</div>
+                                <span>Natal 2022</span>
+                            </div>
+                            <div class="moment-content">
+                                <div class="moment-meta">
+                                    <span class="moment-category">🎄 Natal</span>
+                                    <span class="moment-date">18 de Dezembro de 2022</span>
+                                </div>
+                                <h3 class="moment-title">Natal 2022</h3>
+                                <p class="moment-description">Festa de natal com teatro infantil, apresentação musical e entrega de kits natalinos para todas as crianças atendidas pelo instituto.</p>
+                                <div class="moment-info">
+                                    <span class="moment-participants">👥 100 participantes</span>
+                                    <span class="moment-type">🎄 Celebração</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Festas Tradicionais -->
+                    <div class="moment-slide" data-category="festas" data-date="2024-07-16">
+                        <div class="moment-card">
+                            <div class="moment-image-placeholder">
+                                <div class="placeholder-icon">🎭</div>
+                                <span>Festa Junina 2024</span>
+                            </div>
+                            <div class="moment-content">
+                                <div class="moment-meta">
+                                    <span class="moment-category">🎭 Festas</span>
+                                    <span class="moment-date">16 de Julho de 2024</span>
+                                </div>
+                                <h3 class="moment-title">Festa Junina 2024</h3>
+                                <p class="moment-description">Tradicional festa junina com danças típicas, comidas deliciosas, quadrilha e muita alegria em família e comunidade.</p>
+                                <div class="moment-info">
+                                    <span class="moment-participants">👥 150 participantes</span>
+                                    <span class="moment-type">💃 Festa Tradicional</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Apresentações Culturais -->
+                    <div class="moment-slide" data-category="cultura" data-date="2024-09-15">
+                        <div class="moment-card">
+                            <div class="moment-image-placeholder">
+                                <div class="placeholder-icon">🎵</div>
+                                <span>Apresentação do Coral</span>
+                            </div>
+                            <div class="moment-content">
+                                <div class="moment-meta">
+                                    <span class="moment-category">🎵 Cultura</span>
+                                    <span class="moment-date">15 de Setembro de 2024</span>
+                                </div>
+                                <h3 class="moment-title">Apresentação do Coral</h3>
+                                <p class="moment-description">Nosso coral se apresentou em evento cultural da cidade, showcasing o talento e dedicação de nossos jovens músicos.</p>
+                                <div class="moment-info">
+                                    <span class="moment-participants">👥 20 coralistas</span>
+                                    <span class="moment-type">🎭 Apresentação</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conquistas -->
+                    <div class="moment-slide" data-category="conquistas" data-date="2024-04-05">
+                        <div class="moment-card">
+                            <div class="moment-image-placeholder">
+                                <div class="placeholder-icon">🏆</div>
+                                <span>Inauguração da Loja Pinheiro</span>
+                            </div>
+                            <div class="moment-content">
+                                <div class="moment-meta">
+                                    <span class="moment-category">🏆 Conquistas</span>
+                                    <span class="moment-date">05 de Abril de 2024</span>
+                                </div>
+                                <h3 class="moment-title">Inauguração da Loja Pinheiro</h3>
+                                <p class="moment-description">Em um momento de emoção e talento, as crianças do nosso coral se apresentaram na inauguração da nova loja Pinheiro.</p>
+                                <div class="moment-info">
+                                    <span class="moment-participants">👥 200 convidados</span>
+                                    <span class="moment-type">🎉 Inauguração</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Parcerias -->
+                    <div class="moment-slide" data-category="parcerias" data-date="2024-06-18">
+                        <div class="moment-card">
+                            <div class="moment-image-placeholder">
+                                <div class="placeholder-icon">🤝</div>
+                                <span>Parceria Geek Ação</span>
+                            </div>
+                            <div class="moment-content">
+                                <div class="moment-meta">
+                                    <span class="moment-category">🤝 Parcerias</span>
+                                    <span class="moment-date">18 de Junho de 2024</span>
+                                </div>
+                                <h3 class="moment-title">Parceria com Geek Ação</h3>
+                                <p class="moment-description">Em parceria com a Geek Ação, os alunos tiveram um dia de troca e experiências únicas no mundo da tecnologia.</p>
+                                <div class="moment-info">
+                                    <span class="moment-participants">👥 30 participantes</span>
+                                    <span class="moment-type">💻 Workshop</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Educação -->
+                    <div class="moment-slide" data-category="educacao" data-date="2024-03-10">
+                        <div class="moment-card">
+                            <div class="moment-image-placeholder">
+                                <div class="placeholder-icon">🎓</div>
+                                <span>Workshop de Tecnologia</span>
+                            </div>
+                            <div class="moment-content">
+                                <div class="moment-meta">
+                                    <span class="moment-category">🎓 Educação</span>
+                                    <span class="moment-date">10 de Março de 2024</span>
+                                </div>
+                                <h3 class="moment-title">Workshop de Tecnologia</h3>
+                                <p class="moment-description">Workshop introdutório sobre programação e tecnologia, despertando o interesse dos jovens para carreiras do futuro.</p>
+                                <div class="moment-info">
+                                    <span class="moment-participants">👥 25 alunos</span>
+                                    <span class="moment-type">💡 Workshop</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comunitário -->
+                    <div class="moment-slide" data-category="comunitario" data-date="2024-05-01">
+                        <div class="moment-card">
+                            <div class="moment-image-placeholder">
+                                <div class="placeholder-icon">🌱</div>
+                                <span>Ação Comunitária</span>
+                            </div>
+                            <div class="moment-content">
+                                <div class="moment-meta">
+                                    <span class="moment-category">🌱 Comunitário</span>
+                                    <span class="moment-date">01 de Maio de 2024</span>
+                                </div>
+                                <h3 class="moment-title">Ação Comunitária</h3>
+                                <p class="moment-description">Dia de serviço comunitário com limpeza e revitalização de áreas públicas da Paupina, envolvendo toda a comunidade.</p>
+                                <div class="moment-info">
+                                    <span class="moment-participants">👥 50 voluntários</span>
+                                    <span class="moment-type">🤝 Ação Social</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <figure>
-            <figcaption>
-                <strong class="caption-date">Inauguração da loja...</strong>
-                <small>05 de Abril de 2025</small>
-                <p class="caption-text">Em um momento de emoção e talento, as crianças do nosso coral se apresentaram na inauguração da nova loja Pinheiro.</p>
-            </figcaption>
-        </figure>
+
+        <!-- Indicadores do Carrossel -->
+        <div class="carousel-indicators"></div>
     </div>
-
-
-    <div class="product">
-        <div class="image-carousel">
-            <img src="img/carrossel3.jpg"  class="carousel-image active">
-            <img src="img/carrossel11.jpg"  class="carousel-image">
-            <img src="img/carrossel12.jpg"  class="carousel-image">
-
-            <button class="carousel-nav-btn prev">❮</button>
-            <button class="carousel-nav-btn next">❯</button>
-
-            <div class="carousel-dots"></div>
-        </div>
-        <figure>
-            <figcaption>
-                <strong class="caption-date">Parceiria com a GEEK AÇÃO...</strong>
-                <small>18 de Junho de 2025</small>
-                <p class="caption-text"> Em parceria com a GEEK AÇÃO, os alunos tiveram um dia de troca e experiências únicas no mundo da tecnologia.</p>
-            </figcaption>
-        </figure>
-    </div>
-
-
-     <div class="product">
-        <div class="image-carousel">
-            <img src="img/carrossel14.jpg"  class="carousel-image active">
-            <img src="img/carrossel13.jpg"  class="carousel-image">
-
-            <button class="carousel-nav-btn prev">❮</button>
-            <button class="carousel-nav-btn next">❯</button>
-
-            <div class="carousel-dots"></div>
-        </div>
-        <figure>
-            <figcaption>
-                <strong class="caption-date">Nossa tradicional festa junina...</strong>
-                <small>16 de Julho de 2025</small>
-                <p class="caption-text">Um dia de celebração em família e comunidade, com danças típicas, comidas deliciosas e muita alegria.</p>
-            </figcaption>
-        </figure>
-    </div>
+</section>
 </section>
 
     <section id="numeros" class="numbers">
