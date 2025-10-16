@@ -9,6 +9,25 @@
   --cinza-detalhes: #777;
 }
 
+/* Lazy Loading Styles */
+img.lazy {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+img.loaded {
+  opacity: 1;
+}
+
+[data-bg-src] {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+[data-bg-src].bg-loaded {
+  opacity: 1;
+}
+
 /* Estilos Globais */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -95,7 +114,6 @@ header nav ul li a:hover {
 
 
 .hero {
-  background-image:  linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('imagens_ibv/coral/coral_apresentação_campal1.jpg');
   background-size: cover; 
   background-position: center center; 
   background-attachment: fixed; 
@@ -103,6 +121,22 @@ header nav ul li a:hover {
   padding: 200px 0 100px 0;
   text-align: center;
   position: relative; 
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
 }
 
 .hero h1 {
@@ -217,8 +251,23 @@ header nav ul li a:hover {
   background-size:cover;
   padding: 80px 0;
   background-color: var(--cinza-suave);  
-  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('img/fundo-instituto.jpg');
+  position: relative;
+}
 
+.about::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+  z-index: 1;
+}
+
+.about .container {
+  position: relative;
+  z-index: 2;
 }
 
 .about .container {
@@ -391,10 +440,26 @@ header nav ul li a:hover {
 /* Stories Section */
 .stories {
   padding: 80px 0;
-  background-image:  linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('imagens_ibv/coral/coral_apresentacao_campal3.jpg');
   background-size: cover;
   background-position:initial;
   overflow: hidden;
+  position: relative;
+}
+
+.stories::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+  z-index: 1;
+}
+
+.stories .container {
+  position: relative;
+  z-index: 2;
 }
 
 .stories footer{
@@ -1188,50 +1253,61 @@ header nav ul li a:hover::after {
 
 
 .product:hover .carousel-dots {
-    opacity: 1;
+  opacity: 1;
 }
 
 
 .hamburger-menu {
   display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 15px;
-  position: relative;
-  z-index: 1100; 
-}
-
-.hamburger-menu .bar {
+  flex-direction: column;
+  justify-content: space-between;
   width: 30px;
-  height: 3px;
-  background-color: var(--azul-confianca);
-  margin: 6px 0;
-  transition: all 0.3s ease-in-out;
+  height: 21px;
+  cursor: pointer;
+  z-index: 1001;
+  transition: transform 0.3s ease;
 }
 
-.hamburger-menu.active .bar:nth-child(2) {
+.hamburger-menu span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: var(--branco);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.hamburger-menu.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-menu.active span:nth-child(2) {
   opacity: 0;
 }
 
-.hamburger-menu.active .bar:nth-child(1) {
-  transform: translateY(9px) rotate(45deg);
-}
-
-.hamburger-menu.active .bar:nth-child(3) {
-  transform: translateY(-9px) rotate(-45deg);
+.hamburger-menu.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
 }
 
 @media (max-width: 900px) {
+  .hamburger-menu {
+    display: flex;
+  }
+  
+  header {
+    padding: 15px 0;
+  }
+  
   header .container {
-   
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
   }
-
-  .hamburger-menu {
-    display: block;
+  
+  .logo {
+    max-width: 120px;
   }
+  
 
   #main-nav {
     display: flex; 
@@ -1240,14 +1316,34 @@ header nav ul li a:hover::after {
     top: 0;
     right: 0;
     width: 80%;
+    max-width: 300px;
     height: 100vh; 
-    background-color: var(--branco);
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, var(--azul-confianca), var(--verde-esperanca));
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
     z-index: 1000;
-    padding: 80px 20px;
+    padding: 80px 20px 20px;
     
     transform: translateX(100%);
     transition: transform 0.4s ease-in-out;
+  }
+  
+  /* Overlay para fechar menu */
+  .menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .menu-overlay.active {
+    display: block;
+    opacity: 1;
   }
 
   #main-nav.active {
@@ -1267,9 +1363,19 @@ header nav ul li a:hover::after {
   }
 
   #main-nav ul li a {
-    font-size: 1.2rem;
-    padding: 10px;
+    font-size: 1.1rem;
+    padding: 15px 20px;
     display: block;
+    color: var(--branco);
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  #main-nav ul li a:hover {
+    background-color: rgba(255,255,255,0.1);
+    transform: translateX(5px);
   }
 
   #main-nav ul li a::after {
@@ -1402,12 +1508,13 @@ header nav ul li a:hover::after {
   transition: none;
 }
 
+/* Cards de Eventos */
 .moment-slide {
-  flex: 1;
-  min-width: 250px;
-  max-width: 400px;
+  width: 350px; /* Largura aumentada */
   box-sizing: border-box;
   flex-shrink: 0;
+  padding: 0 10px;
+  margin: 0 5px;
 }
 
 /* Cards de Momentos (Estilo Original) */
@@ -1418,6 +1525,7 @@ header nav ul li a:hover::after {
   box-shadow: 0 6px 20px rgba(0,0,0,0.15);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -1526,8 +1634,31 @@ header nav ul li a:hover::after {
 }
 
 /* Placeholder para imagens */
+/* Estilo para o contêiner da imagem */
+.moment-image {
+  height: 320px; /* Aumentei ainda mais a altura para 320px */
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Estilo para a imagem dentro do card */
+.moment-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.4s ease;
+}
+
+/* Efeito de hover na imagem */
+.moment-card:hover .moment-image img {
+  transform: scale(1.05);
+}
+
+/* Estilo para o placeholder (mantido para outros cards) */
 .moment-image-placeholder {
-  height: 250px;
+  height: 240px; /* Aumentei a altura para manter consistência */
   background-size: cover;
   background-position: center;
   display: flex;
@@ -1588,12 +1719,15 @@ header nav ul li a:hover::after {
 
 /* Conteúdo do Card */
 .moment-content {
-  padding: 25px;
+  padding: 15px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: 2;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
   transition: all 0.4s ease;
 }
 
@@ -1753,8 +1887,9 @@ header nav ul li a:hover::after {
     padding: 20px;
   }
   
+  .moment-image,
   .moment-image-placeholder {
-    height: 220px;
+    height: 280px;
   }
   
   .placeholder-icon {
@@ -1794,12 +1929,13 @@ header nav ul li a:hover::after {
 
 @media (max-width: 480px) {
   .moment-slide {
-    min-width: 180px;
-    max-width: 220px;
+    min-width: 280px;
+    max-width: 320px;
   }
   
+  .moment-image,
   .moment-image-placeholder {
-    height: 180px;
+    height: 220px;
   }
   
   .moment-content {
@@ -1812,6 +1948,216 @@ header nav ul li a:hover::after {
   
   .moment-description {
     font-size: 13px;
+  }
+  
+  /* Melhorias nos botões de navegação para mobile */
+  .carousel-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--azul-confianca);
+    border: 2px solid var(--azul-confianca);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .carousel-btn:hover {
+    background-color: var(--azul-confianca);
+    color: white;
+    transform: scale(1.1);
+  }
+  
+  .carousel-btn.prev {
+    left: 5px;
+  }
+  
+  .carousel-btn.next {
+    right: 5px;
+  }
+  
+  /* Melhorias no container do carrossel para mobile */
+  .moments-carousel-container {
+    padding: 15px;
+    margin: 0 10px;
+    border-radius: 15px;
+  }
+  
+  .moments-slider {
+    gap: 15px;
+    padding: 0 5px;
+  }
+  
+  /* Indicadores melhorados para mobile */
+  .carousel-indicators {
+    bottom: 10px;
+    gap: 8px;
+  }
+  
+  .indicator {
+    width: 8px;
+    height: 8px;
+  }
+  
+  /* Filtros responsivos */
+  .moments-filters {
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
+  
+  .filter-btn {
+    padding: 8px 14px;
+    font-size: 11px;
+    min-width: auto;
+    flex: 0 1 auto;
+  }
+  
+  /* Melhorias de toque */
+  .moment-card {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .moment-card:active {
+    transform: scale(0.98);
+  }
+  
+  /* Feedback visual para toque */
+  .moment-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    border-radius: 12px;
+  }
+  
+  .moment-card:active::after {
+    opacity: 1;
+  }
+  
+  /* Melhorias para seção de momentos em mobile */
+  .moments-history {
+    padding: 40px 0;
+  }
+  
+  .moments-history .container {
+    padding: 0 10px;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  /* Botões de navegação mais acessíveis */
+  .carousel-btn {
+    z-index: 10;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--azul-confianca);
+    color: var(--azul-confianca);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .carousel-btn:hover {
+    background: var(--azul-confianca);
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+  }
+  
+  .carousel-btn:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+  
+  /* Indicadores do carrossel */
+  .carousel-indicators {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 5;
+  }
+  
+  .indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .indicator.active {
+    background: white;
+    transform: scale(1.2);
+  }
+  
+  /* Melhorias nos cards de momentos */
+  .moment-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .moment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Otimização para telas muito pequenas */
+  @media (max-width: 360px) {
+    .moment-slide {
+      min-width: 260px;
+      max-width: 300px;
+    }
+    
+    .moment-image,
+    .moment-image-placeholder {
+      height: 200px;
+    }
+    
+    .carousel-btn {
+      width: 35px;
+      height: 35px;
+      font-size: 14px;
+    }
+    
+    .filter-btn {
+      padding: 6px 12px;
+      font-size: 10px;
+    }
+    
+    .section-title {
+      font-size: 1.6rem;
+    }
   }
 }
 

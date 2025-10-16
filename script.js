@@ -1,5 +1,95 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+  // --- LAZY LOADING COMPLETO ---
+  class LazyLoader {
+    constructor() {
+      this.imageObserver = null;
+      this.bgObserver = null;
+      this.init();
+    }
+
+    init() {
+      this.setupImageLazyLoading();
+      
+      this.setupBackgroundLazyLoading();
+    }
+
+    setupImageLazyLoading() {
+      const images = document.querySelectorAll('img[data-src]');
+      
+      if ('IntersectionObserver' in window) {
+        this.imageObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              img.src = img.dataset.src;
+              img.classList.remove('lazy');
+              img.classList.add('loaded');
+              observer.unobserve(img);
+            }
+          });
+        }, {
+          rootMargin: '50px 0px',
+          threshold: 0.01
+        });
+
+        images.forEach(img => this.imageObserver.observe(img));
+      } else {
+        this.loadImagesImmediately(images);
+      }
+    }
+
+    setupBackgroundLazyLoading() {
+      const bgElements = document.querySelectorAll('[data-bg-src]');
+      
+      if ('IntersectionObserver' in window) {
+        this.bgObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const element = entry.target;
+              const bgSrc = element.dataset.bgSrc;
+              element.style.backgroundImage = `url('${bgSrc}')`;
+              element.classList.add('bg-loaded');
+              observer.unobserve(element);
+            }
+          });
+        }, {
+          rootMargin: '50px 0px',
+          threshold: 0.01
+        });
+
+        bgElements.forEach(element => this.bgObserver.observe(element));
+      } else {
+        this.loadBackgroundsImmediately(bgElements);
+      }
+    }
+
+    loadImagesImmediately(images) {
+      images.forEach(img => {
+        img.src = img.dataset.src;
+        img.classList.add('loaded');
+      });
+    }
+
+    loadBackgroundsImmediately(elements) {
+      elements.forEach(element => {
+        const bgSrc = element.dataset.bgSrc;
+        element.style.backgroundImage = `url('${bgSrc}')`;
+        element.classList.add('bg-loaded');
+      });
+    }
+  }
+
+  const lazyLoader = new LazyLoader();
+  
+  // Carregar imediatamente a imagem do hero 
+  const heroSection = document.getElementById('hero');
+  if (heroSection && heroSection.dataset.bgSrc) {
+    const heroBg = heroSection.dataset.bgSrc;
+    heroSection.style.backgroundImage = `url('${heroBg}')`;
+    heroSection.classList.add('bg-loaded');
+  }
+
   // --- Lógica do Menu Hambúrguer ---
   const hamburgerButton = document.querySelector('.hamburger-menu');
   const mainNav = document.getElementById('main-nav');
@@ -399,7 +489,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // ======================================
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Elementos do DOM
+
   const momentsSlider = document.querySelector('.moments-slider');
   const momentsSlides = document.querySelectorAll('.moment-slide');
   const prevBtn = document.querySelector('.carousel-btn.prev');
@@ -416,17 +506,13 @@ document.addEventListener('DOMContentLoaded', function() {
   let touchStartX = 0;
   let touchEndX = 0;
   
-  // Inicializar carrossel
   function init() {
-    // Adicionar índices aos cards para animação escalonada
     const cards = document.querySelectorAll('.moment-card');
     cards.forEach((card, index) => {
       card.style.setProperty('--card-index', index);
       
-      // Adicionar elementos de interação
       addInteractiveElements(card);
       
-      // Adicionar eventos de mouse para efeito 3D
       addMouse3DEffects(card);
     });
     
@@ -436,25 +522,20 @@ document.addEventListener('DOMContentLoaded', function() {
     startAutoplay();
   }
   
-  // Adicionar elementos de interação aos cards
   function addInteractiveElements(card) {
-    // Adicionar efeito de brilho
     const shineEffect = document.createElement('div');
     shineEffect.className = 'shine-effect';
     card.appendChild(shineEffect);
     
-    // Adicionar partículas mágicas
     const magicParticles = document.createElement('div');
     magicParticles.className = 'magic-particles';
     card.appendChild(magicParticles);
     
-    // Adicionar efeito sonoro visual (feedback de clique)
     card.addEventListener('click', function(e) {
       createRippleEffect(e, this);
     });
   }
   
-  // Criar efeito de ripple no clique
   function createRippleEffect(event, card) {
     const ripple = document.createElement('div');
     ripple.style.position = 'absolute';
@@ -481,7 +562,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 600);
   }
   
-  // Adicionar efeitos 3D com mouse
   function addMouse3DEffects(card) {
     card.addEventListener('mousemove', function(e) {
       if (this.matches(':hover')) {
@@ -502,7 +582,6 @@ document.addEventListener('DOMContentLoaded', function() {
           rotateY(${rotateY}deg)
         `;
         
-        // Efeito de luz seguindo o mouse
         const shineEffect = this.querySelector('.shine-effect');
         if (shineEffect) {
           const shineX = (x / rect.width) * 100;
@@ -522,7 +601,6 @@ document.addEventListener('DOMContentLoaded', function() {
     card.addEventListener('mouseleave', function() {
       this.style.transform = '';
       
-      // Resetar efeito de brilho
       const shineEffect = this.querySelector('.shine-effect');
       if (shineEffect) {
         shineEffect.style.background = '';
@@ -530,22 +608,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Variáveis para controle de navegação por hover
   let mouseHoverNavigation = false;
   let mousePosition = 0;
   let hoverSpeed = 0;
   
-  // Função global para calcular dimensões do carrossel
   function getCarouselDimensions() {
     const container = document.querySelector('.moments-carousel-container');
     const slider = document.querySelector('.moments-slider');
     
     if (!container || !slider) return null;
     
-    const containerWidth = container.offsetWidth - 40; // subtrai padding
+    const containerWidth = container.offsetWidth - 40; 
     const gap = 20;
     
-    // Clonar slide para medir com propriedades flex
     const slideElement = slider.querySelector('.moment-slide');
     if (!slideElement) return null;
     
@@ -560,15 +635,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const slideWidth = tempSlide.offsetWidth;
     document.body.removeChild(tempSlide);
     
-    // Calcular quantos slides cabem no container
     const visibleSlides = Math.max(1, Math.floor(containerWidth / (slideWidth + gap)));
     
-    // Calcular o espaço total ocupado por todos os slides visíveis
     const totalSlides = filteredSlides.length;
     const totalWidth = totalSlides * slideWidth + (totalSlides - 1) * gap;
     
-    // Calcular o limite máximo de arrasto
-    // Se o conteúdo total for menor que o container, não permite arrasto
+    
     const maxTranslate = totalWidth > containerWidth ? -(totalWidth - containerWidth) : 0;
     
     return {
@@ -582,19 +654,16 @@ document.addEventListener('DOMContentLoaded', function() {
     };
   }
   
-  // Configurar navegação por posição do mouse
   function setupMouseHoverNavigation() {
     const container = document.querySelector('.moments-carousel-container');
     const slider = document.querySelector('.moments-slider');
     
     if (!container || !slider) return;
     
-    // Remover listeners existentes
     container.removeEventListener('mousemove', handleMouseMove);
     container.removeEventListener('mouseenter', handleMouseEnter);
     container.removeEventListener('mouseleave', handleMouseLeave);
     
-    // Adicionar listeners
     container.addEventListener('mousemove', handleMouseMove);
     container.addEventListener('mouseenter', handleMouseEnter);
     container.addEventListener('mouseleave', handleMouseLeave);
@@ -606,28 +675,20 @@ document.addEventListener('DOMContentLoaded', function() {
       const containerWidth = rect.width;
       const mouseX = e.clientX - rect.left;
       
-      // Calcular posição relativa (0 = esquerda, 1 = direita)
       mousePosition = mouseX / containerWidth;
       
-      // Calcular velocidade baseada na distância do centro
       const center = 0.5;
       const distanceFromCenter = Math.abs(mousePosition - center);
-      const maxDistance = 0.4; // 40% do container
+      const maxDistance = 0.4; 
       
-      if (distanceFromCenter > 0.1) { // 10% do centro
-        // Calcular velocidade (mais rápido nas bordas)
+      if (distanceFromCenter > 0.1) { 
         const speedMultiplier = Math.min((distanceFromCenter - 0.1) / (maxDistance - 0.1), 1);
-        hoverSpeed = speedMultiplier * 20 ; // Velocidade máxima de 5px por frame
-        
-        // Direção (negativo para esquerda, positivo para direita)
-        // Quando mouse está na direita (> 0.5), mover carrossel para esquerda (negativo) para revelar conteúdo da direita
-        // Quando mouse está na esquerda (< 0.5), mover carrossel para direita (positivo) para revelar conteúdo da esquerda
+        hoverSpeed = speedMultiplier * 20 ; 
+      
         if (mousePosition > center) {
-          // Mouse na direita - mover carrossel para esquerda para ver conteúdo da direita
-          hoverSpeed = -hoverSpeed; // negativo
+          hoverSpeed = -hoverSpeed; 
         } else {
-          // Mouse na esquerda - mover carrossel para direita para ver conteúdo da esquerda
-          hoverSpeed = hoverSpeed; // positivo
+          hoverSpeed = hoverSpeed; 
         }
       } else {
         hoverSpeed = 0;
@@ -654,20 +715,16 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       
-      // Aplicar movimento
       if (hoverSpeed !== 0) {
         currentTranslate += hoverSpeed;
         
-        // Garantir limites estritos
         currentTranslate = Math.max(dims.maxTranslate, Math.min(0, currentTranslate));
         
         slider.style.transition = 'none';
         slider.style.transform = `translateX(${currentTranslate}px)`;
         
-        // Atualizar índice atual
         currentIndex = Math.round(Math.abs(currentTranslate) / (dims.slideWidth + dims.gap));
         
-        // Atualizar indicadores
         updateIndicators();
       }
       
@@ -675,7 +732,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // Variáveis para controle de arrasto
   let isDragging = false;
   let startX = 0;
   let currentX = 0;
@@ -683,14 +739,115 @@ document.addEventListener('DOMContentLoaded', function() {
   let currentTranslate = 0;
   let animationId = 0;
   
-  // Configurar listeners de arrasto
   function setupDragListeners() {
     const slider = document.querySelector('.moments-slider');
     const container = document.querySelector('.moments-carousel-container');
     
     if (!slider || !container) return;
     
-    // Remover listeners existentes para evitar duplicação
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let isSwiping = false;
+    let swipeThreshold = 50; 
+    
+    container.addEventListener('mousedown', (e) => {
+      isDown = true;
+      container.classList.add('dragging');
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+      e.preventDefault();
+    });
+    
+    container.addEventListener('mouseleave', () => {
+      isDown = false;
+      container.classList.remove('dragging');
+    });
+    
+    container.addEventListener('mouseup', () => {
+      isDown = false;
+      container.classList.remove('dragging');
+    });
+    
+    container.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * 2;
+      slider.scrollLeft = scrollLeft - walk;
+    });
+    
+    container.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      isSwiping = true;
+      container.classList.add('dragging');
+    }, { passive: true });
+    
+    container.addEventListener('touchmove', (e) => {
+      if (!isSwiping) return;
+      touchEndX = e.changedTouches[0].screenX;
+      
+      const diff = touchStartX - touchEndX;
+      const currentScroll = slider.scrollLeft;
+      slider.scrollLeft = currentScroll + diff;
+      
+      touchStartX = touchEndX;
+    }, { passive: true });
+    
+    container.addEventListener('touchend', (e) => {
+      if (!isSwiping) return;
+      isSwiping = false;
+      container.classList.remove('dragging');
+      
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    });
+    
+    function handleSwipe() {
+      const swipeDistance = touchStartX - touchEndX;
+      const absSwipeDistance = Math.abs(swipeDistance);
+      
+      if (absSwipeDistance > swipeThreshold) {
+        if (swipeDistance > 0) {
+          goToNextSlide();
+        } else {
+          goToPrevSlide();
+        }
+      }
+    }
+    
+    container.addEventListener('touchmove', (e) => {
+      if (isSwiping) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+    
+    container.addEventListener('touchstart', () => {
+      slider.style.transition = 'none';
+    }, { passive: true });
+    
+    container.addEventListener('touchend', () => {
+      slider.style.transition = 'transform 0.3s ease';
+    }, { passive: true });
+    
+    let lastTouchX = 0;
+    container.addEventListener('touchmove', (e) => {
+      if (!isSwiping) return;
+      const currentTouchX = e.changedTouches[0].screenX;
+      const deltaX = currentTouchX - lastTouchX;
+      
+      const maxScroll = slider.scrollWidth - slider.clientWidth;
+      if ((slider.scrollLeft <= 0 && deltaX > 0) || 
+          (slider.scrollLeft >= maxScroll && deltaX < 0)) {
+        const resistance = 0.3;
+        slider.scrollLeft -= deltaX * resistance;
+      }
+      
+      lastTouchX = currentTouchX;
+    }, { passive: true });
+    
     slider.removeEventListener('mousedown', dragStart);
     slider.removeEventListener('mousemove', dragMove);
     slider.removeEventListener('mouseup', dragEnd);
@@ -699,19 +856,16 @@ document.addEventListener('DOMContentLoaded', function() {
     slider.removeEventListener('touchmove', dragMove);
     slider.removeEventListener('touchend', dragEnd);
     
-    // Eventos de mouse
     slider.addEventListener('mousedown', dragStart);
     slider.addEventListener('mousemove', dragMove);
     slider.addEventListener('mouseup', dragEnd);
     slider.addEventListener('mouseleave', dragEnd);
     
-    // Eventos de toque
     slider.addEventListener('touchstart', dragStart);
     slider.addEventListener('touchmove', dragMove);
     slider.addEventListener('touchend', dragEnd);
     
     function dragStart(e) {
-      // Verificar se o clique foi em um card (para não conflitar com clique no card)
       if (e.target.closest('.moment-card')) {
         return;
       }
@@ -731,7 +885,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const dims = getCarouselDimensions();
       if (!dims) return;
       
-      // Garantir que a posição inicial esteja dentro dos limites
       prevTranslate = Math.max(dims.maxTranslate, Math.min(0, currentTranslate));
     }
     
@@ -752,7 +905,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const dims = getCarouselDimensions();
       if (!dims) return;
       
-      // Limitar o arrasto com limites estritos
       currentTranslate = Math.max(dims.maxTranslate, Math.min(0, currentTranslate));
       
       slider.style.transform = `translateX(${currentTranslate}px)`;
@@ -769,32 +921,25 @@ document.addEventListener('DOMContentLoaded', function() {
       
       const slideTotalWidth = dims.slideWidth + dims.gap;
       
-      // Snap para o slide mais próximo
       const targetTranslate = Math.round(currentTranslate / slideTotalWidth) * slideTotalWidth;
       const finalTranslate = Math.max(dims.maxTranslate, Math.min(0, targetTranslate));
       
-      // Aplicar transição suave
       slider.style.transition = 'transform 0.3s ease';
       slider.style.transform = `translateX(${finalTranslate}px)`;
       
-      // Atualizar índice atual
       currentIndex = Math.round(Math.abs(finalTranslate) / slideTotalWidth);
       
-      // Resetar variáveis
       prevTranslate = finalTranslate;
       currentTranslate = finalTranslate;
       
-      // Remover transição após animação
       setTimeout(() => {
         slider.style.transition = '';
       }, 300);
       
-      // Atualizar indicadores
       updateIndicators();
     }
   }
   
-  // Criar indicadores
   function createIndicators() {
     indicatorsContainer.innerHTML = '';
     
@@ -812,7 +957,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // Atualizar carrossel
   function updateCarousel() {
     if (filteredSlides.length === 0) {
       showNoResults();
@@ -821,12 +965,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     hideNoResults();
     
-    // Garantir que o índice atual seja válido
     if (currentIndex >= filteredSlides.length) {
       currentIndex = 0;
     }
     
-    // Mover o slider para posição baseada no índice
     const slider = document.querySelector('.moments-slider');
     const dims = getCarouselDimensions();
     
@@ -834,20 +976,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const offset = -(currentIndex * (dims.slideWidth + dims.gap));
     
-    // Garantir que o offset não ultrapasse os limites
     const finalOffset = Math.max(dims.maxTranslate, Math.min(0, offset));
     
     slider.style.transform = `translateX(${finalOffset}px)`;
     
-    // Atualizar variáveis globais
     currentTranslate = finalOffset;
     prevTranslate = finalOffset;
     
-    // Atualizar indicadores
     updateIndicators();
   }
   
-  // Atualizar indicadores
   function updateIndicators() {
     const indicators = indicatorsContainer.querySelectorAll('.indicator');
     const dims = getCarouselDimensions();
@@ -863,7 +1001,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   
-  // Ir para slide específico
   function goToSlide(index) {
     if (index >= 0 && index < filteredSlides.length) {
       currentIndex = index;
@@ -872,7 +1009,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // Ir para grupo específico
   function goToGroup(groupIndex) {
     const dims = getCarouselDimensions();
     if (!dims) return;
@@ -880,11 +1016,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const slidesPerView = Math.max(1, Math.floor((dims.containerWidth + dims.gap) / (dims.slideWidth + dims.gap)));
     const totalGroups = Math.ceil(filteredSlides.length / slidesPerView);
     
-    // Garante que o grupo seja válido
     if (groupIndex >= 0 && groupIndex < totalGroups) {
       currentIndex = groupIndex * slidesPerView;
       
-      // Garante que não ultrapasse o limite
       if (currentIndex >= filteredSlides.length) {
         currentIndex = Math.max(0, (totalGroups - 1) * slidesPerView);
       }
@@ -894,11 +1028,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // Filtrar slides
   function filterSlides(filter) {
     currentFilter = filter;
     
-    // Atualizar botões de filtro
     filterBtns.forEach(btn => {
       if (btn.getAttribute('data-category') === filter) {
         btn.classList.add('active');
@@ -907,7 +1039,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
     
-    // Filtrar slides
     if (filter === 'todos') {
       filteredSlides = Array.from(momentsSlides);
     } else if (filter === 'recentes') {
@@ -922,7 +1053,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
     
-    // Mostrar/ocultar slides com base no filtro
     momentsSlides.forEach(slide => {
       if (filteredSlides.includes(slide)) {
         slide.classList.remove('hidden');
@@ -933,12 +1063,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
     
-    // Resetar índice e posição
     currentIndex = 0;
     currentTranslate = 0;
     prevTranslate = 0;
     
-    // Recriar índices para os cards filtrados
     setTimeout(() => {
       const visibleCards = document.querySelectorAll('.moment-slide:not(.hidden) .moment-card');
       visibleCards.forEach((card, index) => {
@@ -946,16 +1074,13 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }, 100);
     
-    // Recriar indicadores e atualizar carrossel
     createIndicators();
     updateCarousel();
     resetAutoplay();
     
-    // Adicionar animação de entrada
     addFilterAnimation();
   }
   
-  // Adicionar animação de filtro
   function addFilterAnimation() {
     const visibleSlides = document.querySelectorAll('.moment-slide.visible');
     visibleSlides.forEach((slide, index) => {
@@ -970,7 +1095,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Mostrar mensagem de sem resultados
   function showNoResults() {
     let noResultsMsg = document.querySelector('.no-results');
     if (!noResultsMsg) {
@@ -988,7 +1112,6 @@ document.addEventListener('DOMContentLoaded', function() {
     indicatorsContainer.style.display = 'none';
   }
   
-  // Esconder mensagem de sem resultados
   function hideNoResults() {
     const noResultsMsg = document.querySelector('.no-results');
     if (noResultsMsg) {
@@ -998,7 +1121,6 @@ document.addEventListener('DOMContentLoaded', function() {
     indicatorsContainer.style.display = 'flex';
   }
   
-  // Autoplay
   function startAutoplay() {
     stopAutoplay();
     autoplayInterval = setInterval(nextSlide, 5000);
@@ -1016,15 +1138,11 @@ document.addEventListener('DOMContentLoaded', function() {
     startAutoplay();
   }
   
-  // Configurar event listeners
   function setupEventListeners() {
-    // Configurar listeners de arrasto
     setupDragListeners();
     
-    // Configurar navegação por mouse
     setupMouseHoverNavigation();
     
-    // Event listeners para filtros
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const filter = btn.getAttribute('data-category');
@@ -1033,10 +1151,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Inicializar o carrossel
   init();
   
-  // Expor funções globalmente para debugging
   window.momentsCarousel = {
     filterSlides,
     getCurrentIndex: () => currentIndex,
