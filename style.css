@@ -1510,7 +1510,7 @@ header nav ul li a:hover::after {
 
 /* Cards de Eventos */
 .moment-slide {
-  width: 350px; /* Largura aumentada */
+  width: 350px; 
   box-sizing: border-box;
   flex-shrink: 0;
   padding: 0 10px;
@@ -1520,7 +1520,7 @@ header nav ul li a:hover::after {
 /* Cards de Momentos (Estilo Original) */
 .moment-card {
   background: var(--branco);
-  border-radius: 12px;
+  border-radius: 8px; 
   overflow: hidden;
   box-shadow: 0 6px 20px rgba(0,0,0,0.15);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -1632,17 +1632,15 @@ header nav ul li a:hover::after {
     opacity: 0;
   }
 }
-
-/* Placeholder para imagens */
-/* Estilo para o contêiner da imagem */
 .moment-image {
-  height: 320px; /* Aumentei ainda mais a altura para 320px */
+  height: 230px; 
   width: 100%;
   overflow: hidden;
   position: relative;
+  margin-bottom: 10px; 
 }
 
-/* Estilo para a imagem dentro do card */
+
 .moment-image img {
   width: 100%;
   height: 100%;
@@ -1651,14 +1649,13 @@ header nav ul li a:hover::after {
   transition: transform 0.4s ease;
 }
 
-/* Efeito de hover na imagem */
+
 .moment-card:hover .moment-image img {
   transform: scale(1.05);
 }
 
-/* Estilo para o placeholder (mantido para outros cards) */
 .moment-image-placeholder {
-  height: 240px; /* Aumentei a altura para manter consistência */
+  height: 240px; 
   background-size: cover;
   background-position: center;
   display: flex;
@@ -1719,13 +1716,13 @@ header nav ul li a:hover::after {
 
 /* Conteúdo do Card */
 .moment-content {
-  padding: 15px;
+  padding: 12px 15px; 
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: 2;
-  height: 100%;
+  height: auto; 
   box-sizing: border-box;
   overflow: hidden;
   transition: all 0.4s ease;
@@ -1861,6 +1858,7 @@ header nav ul li a:hover::after {
 @media (max-width: 1200px) {
   .moment-slide {
     min-width: calc(33.333% - 20px);
+    width: 360px; 
   }
 }
 
@@ -1880,7 +1878,8 @@ header nav ul li a:hover::after {
   }
   
   .moment-slide {
-    min-width: calc(50% - 15px);
+    min-width: calc(50% - 20px);
+    width: 340px; 
   }
   
   .moments-carousel-container {
