@@ -1002,11 +1002,28 @@ document.addEventListener('DOMContentLoaded', function() {
   
   
   function goToSlide(index) {
-    if (index >= 0 && index < filteredSlides.length) {
-      currentIndex = index;
-      updateCarousel();
-      resetAutoplay();
-    }
+    const slider = document.querySelector('.moments-slider');
+    const dims = getCarouselDimensions();
+    
+    if (!slider || !dims) return;
+    
+    // Garante que o índice está dentro dos limites
+    currentIndex = Math.max(0, Math.min(index, filteredSlides.length - 1));
+    
+    // Calcula a posição base
+    const slideWidth = dims.slideWidth + dims.gap;
+    let newPosition = -currentIndex * slideWidth;
+    
+    // Calcula a largura total do slider
+    const totalWidth = (dims.slideWidth * filteredSlides.length) + (dims.gap * (filteredSlides.length - 1));
+    
+    // Limita a posição para não ultrapassar o início ou o fim
+    newPosition = Math.min(0, Math.max(-(totalWidth - dims.containerWidth), newPosition));
+    
+    // Aplica a transformação
+    slider.style.transform = `translateX(${newPosition}px)`;
+    updateIndicators();
+    resetAutoplay();
   }
   
   function goToGroup(groupIndex) {

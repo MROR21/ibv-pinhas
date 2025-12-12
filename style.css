@@ -1494,13 +1494,14 @@ header nav ul li a:hover::after {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 20px 10px 30px;
   overflow: hidden;
   cursor: grab;
   user-select: none;
   border-radius: 12px;
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(5px);
+  box-sizing: border-box;
 }
 
 .moments-carousel-container.dragging {
@@ -1513,6 +1514,9 @@ header nav ul li a:hover::after {
   gap: 20px;
   will-change: transform;
   padding: 0 10px;
+  margin: 0 -10px;
+  width: calc(100% + 20px);
+  box-sizing: border-box;
 }
 
 .moments-slider.dragging {
@@ -1521,11 +1525,13 @@ header nav ul li a:hover::after {
 
 /* Cards de Eventos */
 .moment-slide {
-  width: 350px; 
+  width: 350px;
   box-sizing: border-box;
   flex-shrink: 0;
-  padding: 0 10px;
-  margin: 0 5px;
+  padding: 0;
+  margin: 0;
+  scroll-snap-align: start;
+  flex: 0 0 auto;
 }
 
 /* Cards de Momentos (Estilo Original) */
