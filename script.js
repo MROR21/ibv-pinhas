@@ -154,52 +154,68 @@ document.addEventListener('DOMContentLoaded', function () {
   elementsToAnimate.forEach(el => observer.observe(el));
 
   // --- Lógica de Animação de Números ---
-  function animateValue(obj, start, end, duration) {
-    let startTimestamp = null;
-    const step = (timestamp) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      const currentValue = Math.floor(progress * (end - start) + start);
-
-      if (obj.dataset.prefix === '+') {
-        obj.innerHTML = `+${currentValue}`;
-      } else {
-        obj.innerHTML = currentValue;
-      }
-
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      }
+  function animateNumbers() {
+    const numberElements = document.querySelectorAll('.number');
+    
+    // Verifica se os elementos existem
+    if (numberElements.length === 0) return;
+    
+    // Opções do Intersection Observer
+    const options = {
+        threshold: 0.5 // Dispara quando 50% do elemento estiver visível
     };
-    window.requestAnimationFrame(step);
-  }
-
-  const numbersSection = document.getElementById('numeros');
-  const numberObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const numberSpans = document.querySelectorAll('.numbers .number');
-        numberSpans.forEach(span => {
-          const text = span.textContent;
-          const endValue = parseInt(text.replace('+', ''), 10);
-
-          if (text.includes('+')) {
-            span.dataset.prefix = '+';
-          }
-
-          animateValue(span, 0, endValue, 2000);
+    
+    // Callback do Intersection Observer
+    const handleIntersect = (entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const numberElement = entry.target;
+                const target = parseInt(numberElement.getAttribute('data-count'));
+                const duration = 2000; // 2 segundos
+                const step = (target / (duration / 16)); // 60fps
+                let current = 0;
+                
+                const updateNumber = () => {
+                    current += step;
+                    
+                    if (current < target) {
+                        numberElement.textContent = Math.ceil(current);
+                        requestAnimationFrame(updateNumber);
+                    } else {
+                        numberElement.textContent = target + '+';
+                    }
+                };
+                
+                updateNumber();
+                observer.unobserve(numberElement); // Para de observar após a animação
+            }
         });
-        observer.unobserve(entry.target);
-      }
+    };
+    
+    // Cria o Intersection Observer
+    const observer = new IntersectionObserver(handleIntersect, options);
+    
+    // Observa cada elemento de número
+    numberElements.forEach(element => {
+        observer.observe(element);
     });
-  }, {
-    threshold: 0.5
-  });
+}
 
-  if (numbersSection) {
-    numberObserver.observe(numbersSection);
-  }
+// Inicializa a animação dos números
+animateNumbers();
 
+// Adiciona classe quando o mouse está sobre um card
+const numberCards = document.querySelectorAll('.number-card');
+
+numberCards.forEach(card => {
+    card.addEventListener('mouseenter', function() {
+        this.classList.add('hovered');
+    });
+    
+    card.addEventListener('mouseleave', function() {
+        this.classList.remove('hovered');
+    });
+});
   // --- Lógica do Botão de Copiar PIX ---
   const copyPixButton = document.querySelector('.pix-qr .button');
   if (copyPixButton) {
