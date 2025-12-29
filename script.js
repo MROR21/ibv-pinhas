@@ -245,8 +245,255 @@ numberCards.forEach(card => {
       });
     });
 
-    // --- Lógica do Carrossel de Histórias ---
-    const storySlider = document.querySelector('.story-slider');
+    // --- Lógica do Carrossel de Momentos ---
+  const carousel = document.querySelector('.moments-slider');
+  const sliderWrapper = document.querySelector('.moments-slider-wrapper');
+  const prevButton = document.querySelector('.carousel-prev');
+  const nextButton = document.querySelector('.carousel-next');
+  
+  // Suporte a gestos de toque para o carrossel
+  if (sliderWrapper) {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let velocity = 0;
+    let animationFrame;
+    let isScrolling = false;
+    
+    // Função para animar o deslize
+    const animateScroll = () => {
+      if (Math.abs(velocity) > 0.5) {
+        sliderWrapper.scrollLeft += velocity;
+        velocity *= 0.95; // Fricção
+        animationFrame = requestAnimationFrame(animateScroll);
+      } else {
+        isScrolling = false;
+        snapToNearest();
+      }
+    };
+    
+    // Função para ajustar o scroll para o slide mais próximo
+    const snapToNearest = () => {
+      if (!sliderWrapper) return;
+      
+      const slides = sliderWrapper.querySelectorAll('.moment-slide');
+      if (slides.length === 0) return;
+      
+      const slideWidth = slides[0].offsetWidth + 24; // 24px de gap
+      const wrapperWidth = sliderWrapper.offsetWidth;
+      const scrollPosition = sliderWrapper.scrollLeft + (wrapperWidth / 2);
+      
+      // Encontra o slide mais próximo do centro
+      let closestSlide = null;
+      let minDistance = Infinity;
+      let targetIndex = 0;
+      
+      slides.forEach((slide, index) => {
+        const slidePosition = (index * slideWidth) + (slideWidth / 2);
+        const distance = Math.abs(slidePosition - scrollPosition);
+        
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestSlide = slide;
+          targetIndex = index;
+        }
+      });
+      
+      // Calcula a posição de rolagem para centralizar o slide
+      const targetScroll = Math.max(0, (targetIndex * slideWidth) - ((wrapperWidth - slideWidth) / 2));
+      
+      // Limita a rolagem para não ultrapassar o conteúdo
+      const maxScroll = sliderWrapper.scrollWidth - wrapperWidth;
+      const finalScroll = Math.min(maxScroll, targetScroll);
+      
+      sliderWrapper.scrollTo({
+        left: finalScroll,
+        behavior: 'smooth'
+      });
+    };
+    
+    // Eventos de toque/mouse para desktop e mobile
+    const handleStart = (e) => {
+      isDown = true;
+      startX = (e.pageX || e.touches[0].pageX) - sliderWrapper.offsetLeft;
+      scrollLeft = sliderWrapper.scrollLeft;
+      velocity = 0;
+      cancelAnimationFrame(animationFrame);
+      isScrolling = false;
+      sliderWrapper.style.scrollBehavior = 'auto';
+    };
+    
+    const handleMove = (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      
+      const x = (e.pageX || e.touches[0].pageX) - sliderWrapper.offsetLeft;
+      const walk = (x - startX) * 1.5; // Multiplicador para melhor sensibilidade
+      const prevScrollLeft = sliderWrapper.scrollLeft;
+      
+      sliderWrapper.scrollLeft = scrollLeft - walk;
+      
+      // Calcular velocidade para o efeito de inércia
+      velocity = sliderWrapper.scrollLeft - prevScrollLeft;
+    };
+    
+    const handleEnd = () => {
+      isDown = false;
+      sliderWrapper.style.scrollBehavior = 'smooth';
+      
+      // Aplicar inércia apenas se a velocidade for significativa
+      if (Math.abs(velocity) > 2 && !isScrolling) {
+        isScrolling = true;
+        requestAnimationFrame(animateScroll);
+      } else {
+        snapToNearest();
+      }
+    };
+    
+    // Eventos de mouse
+    sliderWrapper.addEventListener('mousedown', handleStart);
+    sliderWrapper.addEventListener('mousemove', handleMove);
+    sliderWrapper.addEventListener('mouseup', handleEnd);
+    sliderWrapper.addEventListener('mouseleave', handleEnd);
+    
+    // Eventos de toque
+    sliderWrapper.addEventListener('touchstart', handleStart);
+    sliderWrapper.addEventListener('touchmove', handleMove, { passive: false });
+    sliderWrapper.addEventListener('touchend', handleEnd);
+    
+    // Ajustar o scroll inicial para o primeiro slide
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        snapToNearest();
+      }, 100);
+    });
+    
+    // Função para atualizar a classe do slide ativo
+    const updateActiveSlide = () => {
+      const slides = document.querySelectorAll('.moment-slide');
+      const wrapperRect = sliderWrapper.getBoundingClientRect();
+      const wrapperCenter = wrapperRect.left + (wrapperRect.width / 2);
+      
+      let closestSlide = null;
+      let minDistance = Infinity;
+      
+      slides.forEach(slide => {
+        const slideRect = slide.getBoundingClientRect();
+        const slideCenter = slideRect.left + (slideRect.width / 2);
+        const distance = Math.abs(wrapperCenter - slideCenter);
+        
+        // Atualiza a classe ativa baseado na distância do centro
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestSlide = slide;
+        }
+        
+        slide.classList.remove('snap-active');
+      });
+      
+      if (closestSlide) {
+        closestSlide.classList.add('snap-active');
+      }
+    };
+    
+    // Ajustar o scroll ao redimensionar a janela
+    let resizeTimeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        snapToNearest();
+        updateActiveSlide();
+      }, 250);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    // Atualizar o slide ativo ao rolar com debounce
+    let scrollTimeout;
+    sliderWrapper.addEventListener('scroll', () => {
+      cancelAnimationFrame(updateActiveSlide);
+      clearTimeout(scrollTimeout);
+      
+      // Atualiza a UI imediatamente para feedback visual
+      requestAnimationFrame(updateActiveSlide);
+      
+      // Aplica o snap após parar de rolar
+      scrollTimeout = setTimeout(() => {
+        snapToNearest();
+      }, 150);
+    });
+    
+    // Força o snap ao soltar o toque/mouse
+    document.addEventListener('mouseup', () => {
+      if (isDown) {
+        isDown = false;
+        snapToNearest();
+      }
+    });
+    
+    document.addEventListener('touchend', () => {
+      if (isDown) {
+        isDown = false;
+        snapToNearest();
+      }
+    });
+    
+    // Inicializar o slide ativo
+    updateActiveSlide();
+    
+    // Navegação por botões
+    if (prevButton && nextButton) {
+      // Função para ir para o slide anterior
+      const goToPrevSlide = () => {
+        const slideWidth = sliderWrapper.querySelector('.moment-slide').offsetWidth + 24; // 24px de gap
+        sliderWrapper.scrollBy({
+          left: -slideWidth,
+          behavior: 'smooth'
+        });
+      };
+      
+      // Função para ir para o próximo slide
+      const goToNextSlide = () => {
+        const slideWidth = sliderWrapper.querySelector('.moment-slide').offsetWidth + 24; // 24px de gap
+        sliderWrapper.scrollBy({
+          left: slideWidth,
+          behavior: 'smooth'
+        });
+      };
+      
+      // Event listeners para os botões
+      prevButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        goToPrevSlide();
+      });
+      
+      nextButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        goToNextSlide();
+      });
+      
+      // Atualizar estado dos botões ao rolar
+      const updateButtonStates = () => {
+        const { scrollLeft, scrollWidth, clientWidth } = sliderWrapper;
+        const maxScroll = scrollWidth - clientWidth;
+        
+        prevButton.disabled = scrollLeft <= 10;
+        nextButton.disabled = scrollLeft >= maxScroll - 10;
+      };
+      
+      // Atualizar estado inicial dos botões
+      updateButtonStates();
+      
+      // Atualizar estado dos botões ao rolar
+      sliderWrapper.addEventListener('scroll', () => {
+        cancelAnimationFrame(updateButtonStates);
+        requestAnimationFrame(updateButtonStates);
+      });
+      
+      // Atualizar estado dos botões ao redimensionar
+      window.addEventListener('resize', updateButtonStates);
+    }
+  }
     if (storySlider) {
       const slides = Array.from(storySlider.children);
       const nextButton = document.querySelector('.carousel-button.next');
