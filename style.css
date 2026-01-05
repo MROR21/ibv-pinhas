@@ -76,8 +76,8 @@ img.loaded {
 }
 
 .moment-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
 .moment-image {
@@ -544,7 +544,7 @@ header nav ul li a:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  transition: all 0.35s ease-out;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: 20px;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
@@ -552,8 +552,14 @@ header nav ul li a:hover {
   backface-visibility: hidden;
   -webkit-perspective: 1000px;
   perspective: 1000px;
-  will-change: transform, box-shadow;
+  will-change: transform, box-shadow, min-height;
   box-sizing: border-box;
+}
+
+.number-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  min-height: 250px;
 }
 
 .number-card::before {
@@ -580,11 +586,11 @@ header nav ul li a:hover {
 }
 
 .number-card.active {
-  min-height: 300px;
+  min-height: 250px;
   transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
   z-index: 10;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 1 !important;
   background-color: #fff;
 }
@@ -593,25 +599,26 @@ header nav ul li a:hover {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transform: translateY(5px);
-  transition: all 0.3s ease-out;
+  transform: translateY(10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   margin: 0;
   padding: 0 5px;
   font-size: 0.9rem;
   color: #666;
   line-height: 1.5;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+  will-change: max-height, opacity, transform;
+  border-top: 1px solid transparent;
 }
 
+.number-card:hover .number-details,
 .number-card.active .number-details {
-  max-height: 500px;
+  max-height: 200px;
   opacity: 1;
   transform: translateY(0);
   margin-top: 15px;
-  padding: 10px 5px 5px;
-  border-top: 1px solid rgba(0,0,0,0.08);
-  transition: all 0.4s ease-out;
+  padding: 15px 5px 5px;
+  border-top: 1px dashed rgba(0,0,0,0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .number-card .number-content {
@@ -3198,6 +3205,7 @@ header nav ul li a:hover::after {
   background-color: var(--cinza-suave);
   background-image: linear-gradient(rgba(0, 0, 0, 0.014), rgba(0, 0, 0, 0.13)), url('img/programs/depositphotos_314344106-stock-illustration-seamless-pattern-school-college-university.jpg');
   border-top: 5px solid var(--verde-esperanca);
+  background-attachment: fixed;
 }
 
 .program-grid {
