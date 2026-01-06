@@ -1255,8 +1255,8 @@ header nav ul li a:hover {
 }
 
 .help-card {
-  background-image:linear-gradient(rgba(0, 0, 0, 0.685), rgba(0, 0, 0, 0.774)),  url(img/doar-agora.png);
-  background-size:auto;
+  background-image:linear-gradient(rgba(0, 0, 0, 0.301), rgba(0, 0, 0, 0.301)),  url(img/cardsHelp/doacao.png);
+  background-size:cover;
   background-color: var(--cinza-suave);
   border-radius: 8px;
   padding: 40px;
@@ -1264,8 +1264,8 @@ header nav ul li a:hover {
 }
 
 .help-card2 {
-  background-image:linear-gradient(rgba(0, 0, 0, 0.685), rgba(0, 0, 0, 0.774)),  url(img/voluntarioss.png);
-  background-size:auto;
+  background-image:linear-gradient(rgba(0, 0, 0, 0.301), rgba(0, 0, 0, 0.315)),  url(img/cardsHelp/voluntario.png);
+  background-size:cover;
   background-color: var(--cinza-suave);
   border-radius: 8px;
   padding: 40px;
@@ -1273,8 +1273,8 @@ header nav ul li a:hover {
 }
 
 .help-card3 {
-  background-image:linear-gradient(rgba(0, 0, 0, 0.685), rgba(0, 0, 0, 0.774)),  url(img/empresa-parceira.png);
-  background-size:auto;
+  background-image:linear-gradient(rgba(0, 0, 0, 0.295), rgba(0, 0, 0, 0.329)),  url(img/cardsHelp/parcerias.png);
+  background-size:cover;
   background-color: var(--cinza-suave);
   border-radius: 8px;
   padding: 40px;
